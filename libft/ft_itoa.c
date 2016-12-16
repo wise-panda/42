@@ -12,12 +12,27 @@
 
 #include "libft.h"
 
-char	*ft_itoa(int n)
+static int		ft_intlen(int n)
 {
-	char	*str;
-	int		len;
-	int		neg;
-	long	num;
+	int			i;
+
+	i = 0;
+	if (n == 0)
+		return (1);
+	while (n != 0)
+	{
+		n /= 10;
+		++i;
+	}
+	return (i);
+}
+
+char			*ft_itoa(int n)
+{
+	char		*str;
+	int			len;
+	int			neg;
+	long		num;
 
 	neg = 0;
 	num = (long)n;

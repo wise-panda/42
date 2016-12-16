@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: owinckle <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbogar <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/05 16:26:10 by owinckle          #+#    #+#             */
-/*   Updated: 2016/01/06 13:38:40 by owinckle         ###   ########.fr       */
+/*   Created: 2016/11/16 11:55:21 by lbogar            #+#    #+#             */
+/*   Updated: 2016/11/16 11:55:22 by lbogar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
 
 t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-	t_list	*tmp;
-	t_list	*new;
-	t_list	*ret;
+	t_list *tmp;
+	t_list *new;
+	t_list *ret;
 
 	ret = NULL;
 	while (lst)

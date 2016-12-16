@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdel.c                                        :+:      :+:    :+:   */
+/*   ft_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbogar <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/11 23:21:28 by lbogar            #+#    #+#             */
-/*   Updated: 2016/11/11 23:21:38 by lbogar           ###   ########.fr       */
+/*   Created: 2016/11/18 12:36:50 by lbogar            #+#    #+#             */
+/*   Updated: 2016/11/18 18:08:32 by adorn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "fillit.h"
 
-void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))
+int		main(int argc, char **argv)
 {
-	t_list *lst;
-	t_list *tmp;
+	char	*tetrimino;
+	char	**solution;
 
-	lst = *alst;
-	while (lst)
+	if (argc != 2)
 	{
-		tmp = lst->next;
-		del((lst)->content, (lst)->content_size);
-		free(lst);
-		lst = tmp;
+		ft_putstr("usage: fillit input_file\n");
+		return (0);
 	}
-	*alst = NULL;
+	tetrimino = ft_extract_tetrimino(argv[1]);
+	solution = ft_fillit(tetrimino);
+	ft_print_array(solution);
+	return (0);
 }

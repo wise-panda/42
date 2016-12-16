@@ -1,26 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_intlen.c                                        :+:      :+:    :+:   */
+/*   ft_print_functions.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbogar <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/09 22:52:42 by lbogar            #+#    #+#             */
-/*   Updated: 2016/11/09 22:52:44 by lbogar           ###   ########.fr       */
+/*   Created: 2016/11/21 17:20:30 by lbogar            #+#    #+#             */
+/*   Updated: 2016/11/21 17:20:32 by lbogar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "fillit.h"
 
-int		ft_intlen(int n)
+void	ft_print_array(char **array)
 {
 	int i;
 
 	i = 0;
-	while (n != 0)
+	while (array[i] != NULL)
 	{
-		n /= 10;
+		ft_putstr(array[i]);
+		ft_putchar('\n');
 		++i;
 	}
-	return (i);
+}
+
+void	ft_print_tetrimino(t_tet *tetrimino)
+{
+	int i;
+
+	i = 0;
+	while (i < 4)
+	{
+		ft_putnbr(tetrimino->x[i]);
+		ft_putchar(' ');
+		ft_putnbr(tetrimino->y[i]);
+		ft_putchar('\n');
+		++i;
+	}
+	ft_putchar('\n');
 }
