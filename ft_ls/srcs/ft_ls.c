@@ -12,13 +12,56 @@
 
 #include "ft_ls.h"
 
-int		main(int argc, char **argv)
+int		ft_find_substr(const char *s1, const char *s2)
 {
-	int test;
+	while (*s1 == *s2 && *s1 && *s2)
+	{
+		++s1;
+		++s2;
+	}
+	if (*s1 == '\0')
+		return (1);
+	else
+		return (0);
+}
 
-	test = 4;
-	printf("this is a test: %d\n", test);
+char	*ft_find_dir(char **envp)
+{
+	char	*dir;
+
+	dir = "PWD=";
+	while (*envp)
+	{
+		if (ft_find_substr(dir, *envp))
+		{
+			*envp = ft_strchr(*envp, '/');
+			return (*envp);
+		}
+		++envp;
+	}
+	return (NULL);
+}
+
+int		main(int argc, char **argv, char **envp)
+{
+	struct dirent *pdirent;
+	DIR *pDIR;
+
+	if (argc < 2)
+		pDIR = opendir(ft_find_dir(envp));
+	else
+		pDIR = opendir(argv[1]);
+	if (pDIR == NULL)
+		return (1);
+	while ((pdirent = readdir(pDIR)) != NULL)
+	{
+		printf("%s\n", pdirent->d_name);
+	}
+	closedir(pDIR);
 	return (0);
 }
 
-int		ft_ls(
+// int		ft_ls()
+// {
+// 	return ()
+// }
