@@ -74,7 +74,6 @@ t_tet			**ft_read_all_tetrimino(char *tetrimino)
 	while (j < count)
 	{
 		puzzle[j] = ft_read_tetrimino(tetrimino, i);
-		ft_print_tetrimino(puzzle[j]);
 		puzzle[j]->c = c;
 		c++;
 		i += 21;
