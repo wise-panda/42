@@ -84,17 +84,33 @@ int		ft_parse_flag(char **argv, t_format *flag)
 	return (0);
 }
 
+int		ft_exclude_hidden(struct dirent *pdirent)
+{
+	if (ft_strcmp(pdirent->d_name, ".") == 0)
+		return (1);
+	else if (ft_strcmp(pdirent->d_name, "..") == 0)
+		return (1);
+	else
+		return (0);
+}
+
 int		ft_read_dir(DIR *pDIR, t_format *flag)
 {
 	struct dirent *pdirent;
+	struct stat *buf;
 
 	(void)flag;
+	buf = malloc(sizeof(buf));
 	if (pDIR == NULL)
 		return (1);
 	while ((pdirent = readdir(pDIR)) != NULL)
 	{
 		printf("%s\n", pdirent->d_name);
+		stat(pdirent->d_name, buf);
+		if (S_ISDIR(buf->st_mode) && ft_exclude_hidden(pdirent) == 0)
+			ft_read_dir(opendir(pdirent->d_name), flag);
 	}
+	free(buf);
 	closedir(pDIR);
 	return (0);
 }

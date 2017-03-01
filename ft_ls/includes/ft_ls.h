@@ -35,5 +35,6 @@ typedef struct  s_format
 
 char	           *ft_strchr(const char *s, int c);
 void             *ft_memalloc(size_t size);
+int               ft_strcmp(const char *s1, const char *s2);
 
 #endif
