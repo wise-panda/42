@@ -23,6 +23,17 @@
 # include <string.h>
 # include <stdio.h>
 
-char	*ft_strchr(const char *s, int c);
+typedef struct  s_format
+{
+  int           found;
+  int           l;
+  int           R;
+  int           a;
+  int           r;
+  int           t;
+}               t_format;
+
+char	           *ft_strchr(const char *s, int c);
+void             *ft_memalloc(size_t size);
 
 #endif

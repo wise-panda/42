@@ -42,15 +42,53 @@ char	*ft_find_dir(char **envp)
 	return (NULL);
 }
 
-int		main(int argc, char **argv, char **envp)
+int		ft_valid_flag(char c)
+{
+	if (c == 'l' || c == 'R' || c == 'a' || c == 'r' || c == 't')
+		return (1);
+	else
+		return (0);
+}
+
+void	ft_assign_flag(t_format *flag, char type)
+{
+	if (type == 'l')
+		flag->l = 1;
+	if (type == 'R')
+		flag->R = 1;
+	if (type == 'a')
+		flag->a = 1;
+	if (type == 'r')
+		flag->r = 1;
+	if (type == 't')
+		flag->t = 1;
+}
+
+int		ft_parse_flag(char **argv, t_format *flag)
+{
+	int		i;
+
+	i = 1;
+	if (argv[1][0] == '-')
+		while (argv[1][i])
+		{
+			if (ft_valid_flag(argv[1][i]))
+			{
+				flag->found = 1;
+				ft_assign_flag(flag, argv[1][i]);
+			}
+			else
+				return (1);
+			i++;
+		}
+	return (0);
+}
+
+int		ft_read_dir(DIR *pDIR, t_format *flag)
 {
 	struct dirent *pdirent;
-	DIR *pDIR;
 
-	if (argc < 2)
-		pDIR = opendir(ft_find_dir(envp));
-	else
-		pDIR = opendir(argv[1]);
+	(void)flag;
 	if (pDIR == NULL)
 		return (1);
 	while ((pdirent = readdir(pDIR)) != NULL)
@@ -61,7 +99,39 @@ int		main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-// int		ft_ls()
-// {
-// 	return ()
-// }
+void	ft_initialize_flag(t_format *flag)
+{
+	flag->found = 0;
+	flag->l = 0;
+	flag->R = 0;
+	flag->a = 0;
+	flag->r = 0;
+	flag->t = 0;
+}
+
+int		main(int argc, char **argv, char **envp)
+{
+	int				i;
+	t_format	*flag;
+	DIR 			*pDIR;
+
+	i = 1;
+	flag = (t_format*)ft_memalloc(sizeof(t_format));
+	if (argc == 1)
+	{
+		pDIR = opendir(ft_find_dir(envp));
+		ft_read_dir(pDIR, flag);
+	}
+	if (argc >= 2)
+	{
+		ft_initialize_flag(flag);
+		if (ft_parse_flag(argv, flag))
+			return (1);
+		if (flag->found == 1)
+			i++;
+		while (argv[i])
+			ft_read_dir(opendir(argv[i++]), flag);
+	}
+	free (flag);
+	return (0);
+}
