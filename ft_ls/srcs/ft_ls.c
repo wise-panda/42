@@ -84,33 +84,59 @@ int		ft_parse_flag(char **argv, t_format *flag)
 	return (0);
 }
 
-int		ft_exclude_hidden(struct dirent *pdirent)
+int		ft_read_dir(char *name, t_format *flag)
 {
-	if (ft_strcmp(pdirent->d_name, ".") == 0)
-		return (1);
-	else if (ft_strcmp(pdirent->d_name, "..") == 0)
-		return (1);
-	else
-		return (0);
-}
-
-int		ft_read_dir(DIR *pDIR, t_format *flag)
-{
+	DIR						*pDIR;
 	struct dirent *pdirent;
-	struct stat *buf;
 
 	(void)flag;
-	buf = malloc(sizeof(buf));
-	if (pDIR == NULL)
+	if (!(pDIR = opendir(name)))
 		return (1);
 	while ((pdirent = readdir(pDIR)) != NULL)
 	{
 		printf("%s\n", pdirent->d_name);
-		stat(pdirent->d_name, buf);
-		if (S_ISDIR(buf->st_mode) && ft_exclude_hidden(pdirent) == 0)
-			ft_read_dir(opendir(pdirent->d_name), flag);
 	}
-	free(buf);
+	closedir(pDIR);
+	return (0);
+}
+
+int		ft_isdir(char *name)
+{
+	struct stat *pstat;
+
+	pstat = ft_memalloc(sizeof(stat));
+	stat(name, pstat);
+	if ((S_IFDIR & pstat->st_mode) == S_IFDIR)
+	{
+		free(pstat);
+		return (1);
+	}
+	else
+	{
+		free(pstat);
+		return (0);
+	}
+}
+
+int		ft_read_dir_R(char *name, t_format *flag)
+{
+	DIR						*pDIR;
+	struct dirent *pdirent;
+
+	(void)flag;
+	if (!(pDIR = opendir(name)))
+		return (1);
+	while ((pdirent = readdir(pDIR)) != NULL)
+	{
+		if (ft_isdir(pdirent->d_name))
+		{
+			if (pdirent->d_name[0] == '.')
+				continue ;
+			printf("entering recursion: %s\n", pdirent->d_name);
+			ft_read_dir_R(pdirent->d_name, flag);
+		}
+		printf("%s\n", pdirent->d_name);
+	}
 	closedir(pDIR);
 	return (0);
 }
@@ -129,15 +155,11 @@ int		main(int argc, char **argv, char **envp)
 {
 	int				i;
 	t_format	*flag;
-	DIR 			*pDIR;
 
 	i = 1;
 	flag = (t_format*)ft_memalloc(sizeof(t_format));
 	if (argc == 1)
-	{
-		pDIR = opendir(ft_find_dir(envp));
-		ft_read_dir(pDIR, flag);
-	}
+		ft_read_dir(ft_find_dir(envp), flag);
 	if (argc >= 2)
 	{
 		ft_initialize_flag(flag);
@@ -146,7 +168,10 @@ int		main(int argc, char **argv, char **envp)
 		if (flag->found == 1)
 			i++;
 		while (argv[i])
-			ft_read_dir(opendir(argv[i++]), flag);
+		{
+			ft_read_dir_R(argv[i], flag);
+			i++;
+		}
 	}
 	free (flag);
 	return (0);

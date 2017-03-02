@@ -17,7 +17,7 @@ LS =		ft_ls.c
 OBJS += 	$(addprefix build/, $(LS:.c=.o))
 
 CC = 		gcc
-CFLAGS = 	-Wall -Wextra -Werror
+CFLAGS = 	-Wall -Wextra -Werror -g
 CFLAGS += 	-I includes/
 LFLAGS = 	-L ./libft -lft
 
