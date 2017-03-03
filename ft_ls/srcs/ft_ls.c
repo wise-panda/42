@@ -94,6 +94,8 @@ int		ft_read_dir(char *name, t_format *flag)
 		return (1);
 	while ((pdirent = readdir(pDIR)) != NULL)
 	{
+		if (pdirent->d_name[0] == '.')
+			continue ;
 		printf("%s\n", pdirent->d_name);
 	}
 	closedir(pDIR);
@@ -104,8 +106,10 @@ int		ft_isdir(char *name)
 {
 	struct stat *pstat;
 
-	pstat = ft_memalloc(sizeof(stat));
-	stat(name, pstat);
+	if ((pstat = (struct stat*)ft_memalloc(sizeof(struct stat))) == NULL)
+		return (0);
+	if (lstat(name, pstat) == -1)
+		return (0);
 	if ((S_IFDIR & pstat->st_mode) == S_IFDIR)
 	{
 		free(pstat);
@@ -118,24 +122,30 @@ int		ft_isdir(char *name)
 	}
 }
 
-int		ft_read_dir_R(char *name, t_format *flag)
+int		ft_read_dir_R(char *dir_name, t_format *flag)
 {
+	char					*path;
 	DIR						*pDIR;
 	struct dirent *pdirent;
 
 	(void)flag;
-	if (!(pDIR = opendir(name)))
+	if (!(pDIR = opendir(dir_name)))
 		return (1);
+	printf("folder: %s\n", dir_name);
+	ft_read_dir(dir_name, flag);
+	printf("\n");
 	while ((pdirent = readdir(pDIR)) != NULL)
 	{
-		if (ft_isdir(pdirent->d_name))
+		if (pdirent->d_name[0] == '.')
+			continue ;
+		path = ft_strjoin(ft_strjoin(dir_name, "/"), pdirent->d_name);
+		//printf("path: %s, d_name: %s\n", path, pdirent->d_name);
+		if (ft_isdir(path))
 		{
-			if (pdirent->d_name[0] == '.')
-				continue ;
-			printf("entering recursion: %s\n", pdirent->d_name);
-			ft_read_dir_R(pdirent->d_name, flag);
+			//printf("this should be a directory\n");
+			ft_read_dir_R(path, flag);
 		}
-		printf("%s\n", pdirent->d_name);
+		free(path);
 	}
 	closedir(pDIR);
 	return (0);
