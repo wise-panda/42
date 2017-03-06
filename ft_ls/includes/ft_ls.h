@@ -34,6 +34,7 @@ typedef struct  s_format
 }               t_format;
 
 size_t	         ft_strlen(const char *s);
+char	           *ft_strnjoin(int count, ...);
 char	           *ft_strnew(size_t size);
 char	           *ft_strcpy(char *dst, const char *src);
 int		           ft_read_dir(char *name, t_format *flag);

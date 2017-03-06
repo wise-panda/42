@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdarg.h>
 
 typedef struct		s_list
 {
@@ -66,6 +67,7 @@ int					ft_strequ(char const *s1, char const *s2);
 int					ft_strnequ(char const *s1, char const *s2, size_t n);
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_strnjoin(int count, ...);
 char				*ft_strtrim(char const *s);
 char				**ft_strsplit(char const *s, char c);
 void				ft_strset(char *string, char c, size_t start, size_t end);
