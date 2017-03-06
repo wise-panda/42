@@ -125,6 +125,7 @@ int		ft_isdir(char *name)
 int		ft_read_dir_R(char *dir_name, t_format *flag)
 {
 	char					*path;
+	char					*temp;
 	DIR						*pDIR;
 	struct dirent *pdirent;
 
@@ -138,13 +139,11 @@ int		ft_read_dir_R(char *dir_name, t_format *flag)
 	{
 		if (pdirent->d_name[0] == '.')
 			continue ;
-		path = ft_strjoin(ft_strjoin(dir_name, "/"), pdirent->d_name);
-		//printf("path: %s, d_name: %s\n", path, pdirent->d_name);
+		temp = ft_strjoin(dir_name, "/");
+		path = ft_strjoin(temp, pdirent->d_name);
+		free(temp);
 		if (ft_isdir(path))
-		{
-			//printf("this should be a directory\n");
 			ft_read_dir_R(path, flag);
-		}
 		free(path);
 	}
 	closedir(pDIR);
