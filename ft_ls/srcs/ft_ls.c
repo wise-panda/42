@@ -55,7 +55,7 @@ void	ft_assign_flag(t_format *flag, char type)
 	if (type == 'l')
 		flag->l = 1;
 	if (type == 'R')
-		flag->R = 1;
+		flag->rec = 1;
 	if (type == 'a')
 		flag->a = 1;
 	if (type == 'r')
@@ -86,19 +86,19 @@ int		ft_parse_flag(char **argv, t_format *flag)
 
 int		ft_read_dir(char *name, t_format *flag)
 {
-	DIR						*pDIR;
-	struct dirent *pdirent;
+	DIR						*pdir;
+	struct dirent			*pdirent;
 
 	(void)flag;
-	if (!(pDIR = opendir(name)))
+	if (!(pdir = opendir(name)))
 		return (1);
-	while ((pdirent = readdir(pDIR)) != NULL)
+	while ((pdirent = readdir(pdir)) != NULL)
 	{
 		if (pdirent->d_name[0] == '.')
 			continue ;
 		printf("%s\n", pdirent->d_name);
 	}
-	closedir(pDIR);
+	closedir(pdir);
 	return (0);
 }
 
@@ -122,31 +122,30 @@ int		ft_isdir(char *name)
 	}
 }
 
-int		ft_read_dir_R(char *dir_name, t_format *flag)
+int		ft_read_dir_r(char *dir_name, t_format *flag)
 {
 	char					*path;
-	char					*temp;
-	DIR						*pDIR;
-	struct dirent *pdirent;
+	DIR						*pdir;
+	struct dirent			*pdirent;
 
 	(void)flag;
-	if (!(pDIR = opendir(dir_name)))
+	if (!(pdir = opendir(dir_name)))
 		return (1);
 	printf("folder: %s\n", dir_name);
 	ft_read_dir(dir_name, flag);
 	printf("\n");
-	while ((pdirent = readdir(pDIR)) != NULL)
+	while ((pdirent = readdir(pdir)) != NULL)
 	{
 		if (pdirent->d_name[0] == '.')
 			continue ;
-		temp = ft_strjoin(dir_name, "/");
-		path = ft_strjoin(temp, pdirent->d_name);
-		free(temp);
+		path = ft_strnjoin(3, dir_name, "/", pdirent->d_name);
 		if (ft_isdir(path))
-			ft_read_dir_R(path, flag);
+		{
+			ft_read_dir_r(path, flag);
+		}
 		free(path);
 	}
-	closedir(pDIR);
+	closedir(pdir);
 	return (0);
 }
 
@@ -154,7 +153,7 @@ void	ft_initialize_flag(t_format *flag)
 {
 	flag->found = 0;
 	flag->l = 0;
-	flag->R = 0;
+	flag->rec = 0;
 	flag->a = 0;
 	flag->r = 0;
 	flag->t = 0;
@@ -163,7 +162,7 @@ void	ft_initialize_flag(t_format *flag)
 int		main(int argc, char **argv, char **envp)
 {
 	int				i;
-	t_format	*flag;
+	t_format		*flag;
 
 	i = 1;
 	flag = (t_format*)ft_memalloc(sizeof(t_format));
@@ -178,10 +177,10 @@ int		main(int argc, char **argv, char **envp)
 			i++;
 		while (argv[i])
 		{
-			ft_read_dir_R(argv[i], flag);
+			ft_read_dir_r(argv[i], flag);
 			i++;
 		}
 	}
-	free (flag);
+	free(flag);
 	return (0);
 }
