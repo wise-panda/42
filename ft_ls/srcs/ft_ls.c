@@ -122,6 +122,11 @@ int		ft_isdir(char *name)
 	}
 }
 
+/*
+** Output would ideally not print out folder name for top directory,
+** and not print out a trailing newline after the last entry.
+*/
+
 int		ft_read_dir_r(char *dir_name, t_format *flag)
 {
 	char					*path;
@@ -131,7 +136,7 @@ int		ft_read_dir_r(char *dir_name, t_format *flag)
 	(void)flag;
 	if (!(pdir = opendir(dir_name)))
 		return (1);
-	printf("folder: %s\n", dir_name);
+	printf("%s:\n", dir_name);
 	ft_read_dir(dir_name, flag);
 	printf("\n");
 	while ((pdirent = readdir(pdir)) != NULL)
