@@ -33,12 +33,26 @@ typedef struct	s_format
 	int			t;
 }				t_format;
 
+typedef struct  s_metadata
+{
+  char    *filename;
+  size_t  namelen;
+  size_t  timestamp;
+}       t_metadata;
+
+typedef struct  s_directory
+{
+  char        *dirname;
+  int         dirlen;
+  t_metadata  **files;
+}       t_directory;
+
 size_t			ft_strlen(const char *s);
+char	    *ft_strdup(const char *s1);
 char			*ft_strnjoin(int count, ...);
 char			*ft_strnew(size_t size);
 char			*ft_strcpy(char *dst, const char *src);
-int				ft_read_dir(char *name, t_format *flag);
-int				ft_read_dir_r(char *dir_name, t_format *flag);
+int				ft_read_dir(char *dirname);
 char			*ft_strchr(const char *s, int c);
 void			*ft_memalloc(size_t size);
 int				ft_strcmp(const char *s1, const char *s2);

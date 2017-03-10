@@ -84,75 +84,42 @@ int		ft_parse_flag(char **argv, t_format *flag)
 	return (0);
 }
 
-int		ft_read_dir(char *name, t_format *flag)
-{
-	DIR						*pdir;
-	struct dirent			*pdirent;
-
-	(void)flag;
-	if (!(pdir = opendir(name)))
-		return (1);
-	while ((pdirent = readdir(pdir)) != NULL)
-	{
-		if (pdirent->d_name[0] == '.')
-			continue ;
-		printf("%s\n", pdirent->d_name);
-	}
-	closedir(pdir);
-	return (0);
-}
-
-int		ft_isdir(char *name)
-{
-	struct stat *pstat;
-
-	if ((pstat = (struct stat*)ft_memalloc(sizeof(struct stat))) == NULL)
-		return (0);
-	if (lstat(name, pstat) == -1)
-		return (0);
-	if ((S_IFDIR & pstat->st_mode) == S_IFDIR)
-	{
-		free(pstat);
-		return (1);
-	}
-	else
-	{
-		free(pstat);
-		return (0);
-	}
-}
+// if ((S_IFDIR & pstat->st_mode) == S_IFDIR)
+// 	return (1);
+// else
+// 	return (0);
 
 /*
 ** Output would ideally not print out folder name for top directory,
 ** and not print out a trailing newline after the last entry.
 */
 
-int		ft_read_dir_r(char *dir_name, t_format *flag)
-{
-	char					*path;
-	DIR						*pdir;
-	struct dirent			*pdirent;
-
-	(void)flag;
-	if (!(pdir = opendir(dir_name)))
-		return (1);
-	printf("%s:\n", dir_name);
-	ft_read_dir(dir_name, flag);
-	printf("\n");
-	while ((pdirent = readdir(pdir)) != NULL)
-	{
-		if (pdirent->d_name[0] == '.')
-			continue ;
-		path = ft_strnjoin(3, dir_name, "/", pdirent->d_name);
-		if (ft_isdir(path))
-		{
-			ft_read_dir_r(path, flag);
-		}
-		free(path);
-	}
-	closedir(pdir);
-	return (0);
-}
+// int		ft_read_dir_r(char *dir_name, t_format *flag)
+// {
+// 	char					*path;
+// 	DIR						*pdir;
+// 	struct dirent			*pdirent;
+//
+// 	(void)flag;
+// 	if (!(pdir = opendir(dir_name)))
+// 		return (1);
+// 	printf("%s:\n", dir_name);
+// 	ft_read_dir(dir_name, flag);
+// 	printf("\n");
+// 	while ((pdirent = readdir(pdir)) != NULL)
+// 	{
+// 		if (pdirent->d_name[0] == '.')
+// 			continue ;
+// 		path = ft_strnjoin(3, dir_name, "/", pdirent->d_name);
+// 		if (ft_isdir(path))
+// 		{
+// 			ft_read_dir_r(path, flag);
+// 		}
+// 		free(path);
+// 	}
+// 	closedir(pdir);
+// 	return (0);
+// }
 
 void	ft_initialize_flag(t_format *flag)
 {
@@ -164,6 +131,110 @@ void	ft_initialize_flag(t_format *flag)
 	flag->t = 0;
 }
 
+int		ft_dirlen(char *dirname)
+{
+	DIR						*pdir;
+	struct dirent	*pdirent;
+	int						len;
+
+	len = 0;
+	if (!(pdir = opendir(dirname)))
+		return (0);
+	while ((pdirent = readdir(pdir)) != NULL)
+	{
+		if (pdirent->d_name[0] == '.')
+			continue ;
+		len++;
+	}
+	closedir(pdir);
+	return (len);
+}
+
+t_metadata	**ft_create_tmeta_array(int array_size)
+{
+	t_metadata 		**files;
+	int						i;
+
+	i = 0;
+	files = (t_metadata**)ft_memalloc(sizeof(t_metadata*) * array_size);
+	while (i < (array_size - 1))
+	{
+		files[i] = (t_metadata*)ft_memalloc(sizeof(t_metadata));
+		i++;
+	}
+	files[i] = NULL;
+	return (files);
+}
+
+int					ft_parse_filename(char *dirname, t_metadata **files)
+{
+	DIR						*pdir;
+	struct dirent	*pdirent;
+	int						i;
+
+	i = 0;
+	if (!(pdir = opendir(dirname)))
+		return (1);
+	while ((pdirent = readdir(pdir)) != NULL)
+	{
+		if (pdirent->d_name[0] == '.')
+			continue ;
+		files[i]->filename = ft_strdup(pdirent->d_name);
+		files[i]->namelen = ft_strlen(pdirent->d_name);
+		i++;
+	}
+	closedir(pdir);
+	return (0);
+}
+
+int				ft_parse_timestamp(t_metadata **files)
+{
+	struct	stat *pstat;
+	int			i;
+
+	i = 0;
+	if ((pstat = (struct stat*)ft_memalloc(sizeof(struct stat))) == NULL)
+		return (1);
+	while (*files)
+	{
+		if (lstat((*files)->filename, pstat) == -1)
+			return (1);
+		(*files)->timestamp = pstat->st_ctimespec.tv_sec;
+		files++;
+	}
+	free(pstat);
+	return (0);
+}
+
+t_directory	*ft_create_tdir(char *dirname)
+{
+	t_directory		*dir;
+
+	dir = ft_memalloc(sizeof(t_directory));
+	dir->dirname = ft_strdup(dirname);
+	dir->dirlen = ft_dirlen(dirname) + 1;
+	dir->files = ft_create_tmeta_array(dir->dirlen);
+	ft_parse_filename(dirname, dir->files);
+	ft_parse_timestamp(dir->files);
+	return (dir);
+}
+
+int		ft_print_dir(char *dirname)
+{
+	int						i;
+	t_directory		*dir;
+
+	i = 0;
+	dir = ft_create_tdir(dirname);
+	while (dir->files[i])
+	{
+		printf("%s\n", dir->files[i]->filename);
+		i++;
+	}
+	free(dir);
+	return (0);
+}
+
 int		main(int argc, char **argv, char **envp)
 {
 	int				i;
@@ -172,7 +243,7 @@ int		main(int argc, char **argv, char **envp)
 	i = 1;
 	flag = (t_format*)ft_memalloc(sizeof(t_format));
 	if (argc == 1)
-		ft_read_dir(ft_find_dir(envp), flag);
+		ft_print_dir(ft_find_dir(envp));
 	if (argc >= 2)
 	{
 		ft_initialize_flag(flag);
@@ -182,7 +253,7 @@ int		main(int argc, char **argv, char **envp)
 			i++;
 		while (argv[i])
 		{
-			ft_read_dir_r(argv[i], flag);
+			ft_print_dir(argv[i]);
 			i++;
 		}
 	}
