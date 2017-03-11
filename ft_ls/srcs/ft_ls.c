@@ -235,6 +235,49 @@ int		ft_print_dir(char *dirname)
 	return (0);
 }
 
+void		swap(int *a, int *b)
+{
+	int temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+int		partition(int *array, int left, int right)
+{
+	int pivot;
+	int i;
+	int j;
+
+	pivot = array[left];
+	i = left;
+	j = right + 1;
+	while (1)
+	{
+		while (array[i] <= pivot && i <= right)
+			i++;
+		while (array[j] > pivot)
+			j--;
+		if (i >= j)
+			break ;
+		swap(&array[i], &array[j]);
+	}
+	swap(&array[left], &array[j]);
+	return (j);
+}
+
+void		quicksort(int *array, int left, int right)
+{
+	int j;
+
+	if (left < right)
+	{
+		j = partition(array, left, right);
+		quicksort(array, left, (j - 1));
+		quicksort(array, (j + 1), right);
+	}
+}
+
 int		main(int argc, char **argv, char **envp)
 {
 	int				i;
