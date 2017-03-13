@@ -12,7 +12,11 @@
 
 NAME =		ft_ls
 
-LS =		ft_ls.c
+LS =		ft_ls.c \
+				ft_create_dir.c \
+				ft_find_pwd.c \
+				ft_parse_flag.c \
+				ft_recursive_flag.c
 
 OBJS += 	$(addprefix build/, $(LS:.c=.o))
 

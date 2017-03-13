@@ -25,37 +25,40 @@
 
 typedef struct	s_format
 {
-	int			found;
-	int			l;
-	int			rec;
-	int			a;
-	int			r;
-	int			t;
-}				t_format;
+	int					found;
+	int					l;
+	int					rec;
+	int					a;
+	int					r;
+	int					t;
+}							t_format;
 
 typedef struct  s_metadata
 {
-  char    *filename;
-  size_t  namelen;
-  size_t  timestamp;
-}       t_metadata;
+  char    		*filename;
+  size_t  		namelen;
+  size_t  		timestamp;
+}       			t_metadata;
 
 typedef struct  s_directory
 {
   char        *dirname;
   int         dirlen;
   t_metadata  **files;
-}       t_directory;
+}       			t_directory;
 
-size_t			ft_strlen(const char *s);
-char	    *ft_strdup(const char *s1);
-char			*ft_strnjoin(int count, ...);
-char			*ft_strnew(size_t size);
-char			*ft_strcpy(char *dst, const char *src);
-int				ft_read_dir(char *dirname);
-char			*ft_strchr(const char *s, int c);
-void			*ft_memalloc(size_t size);
-int				ft_strcmp(const char *s1, const char *s2);
-char			*ft_strjoin(char const *s1, char const *s2);
-
+int						ft_print_dir(char *dirname);
+t_directory		*ft_create_tdir(char *dirname);
+char					*ft_find_pwd(char **envp);
+void					ft_initialize_flag(t_format *flag);
+int						ft_parse_flag(char **argv, t_format *flag);
+size_t				ft_strlen(const char *s);
+char	    		*ft_strdup(const char *s1);
+char					*ft_strnjoin(int count, ...);
+char					*ft_strnew(size_t size);
+char					*ft_strcpy(char *dst, const char *src);
+char					*ft_strchr(const char *s, int c);
+void					*ft_memalloc(size_t size);
+int						ft_strcmp(const char *s1, const char *s2);
+char					*ft_strjoin(char const *s1, char const *s2);
 #endif
