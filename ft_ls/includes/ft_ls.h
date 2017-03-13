@@ -48,6 +48,8 @@ typedef struct  s_directory
 }       			t_directory;
 
 int						ft_print_dir(char *dirname);
+void					ft_quicksort_string(t_metadata **array, int start, int end);
+void					ft_quicksort_timestamp(t_metadata **array, int start, int end);
 t_directory		*ft_create_tdir(char *dirname);
 char					*ft_find_pwd(char **envp);
 void					ft_initialize_flag(t_format *flag);

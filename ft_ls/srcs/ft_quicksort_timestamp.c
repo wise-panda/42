@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_quicksort_string.c                              :+:      :+:    :+:   */
+/*   ft_quicksort_timestamp.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbogar <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/13 11:31:21 by lbogar            #+#    #+#             */
-/*   Updated: 2017/03/13 11:31:22 by lbogar           ###   ########.fr       */
+/*   Created: 2017/03/13 14:06:45 by lbogar            #+#    #+#             */
+/*   Updated: 2017/03/13 14:06:46 by lbogar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ static void		swap(t_metadata **array, int a, int b)
 
 static int		partition(t_metadata **array, int start, int end)
 {
-	char	*pivot;
-	int 	partition_index;
-	int 	current_element;
+	size_t pivot;
+	int    partition_index;
+	int    current_element;
 
-	pivot = array[end]->filename;
+	pivot = array[end]->timestamp;
 	partition_index = start;
 	current_element = start;
 	while (current_element < end)
 	{
-		if (ft_strcmp(array[current_element]->filename, pivot) <= 0)
+		if (array[current_element]->timestamp <= pivot)
 		{
 			swap(array, current_element, partition_index);
 			partition_index++;
@@ -43,7 +43,7 @@ static int		partition(t_metadata **array, int start, int end)
 	return (partition_index);
 }
 
-void		ft_quicksort_string(t_metadata **array, int start, int end)
+void		ft_quicksort_timestamp(t_metadata **array, int start, int end)
 {
 	int partition_index;
 

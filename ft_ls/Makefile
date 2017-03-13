@@ -16,7 +16,9 @@ LS =		ft_ls.c \
 				ft_create_dir.c \
 				ft_find_pwd.c \
 				ft_parse_flag.c \
-				ft_recursive_flag.c
+				ft_recursive_flag.c \
+				ft_quicksort_string.c \
+				ft_quicksort_timestamp.c
 
 OBJS += 	$(addprefix build/, $(LS:.c=.o))
 

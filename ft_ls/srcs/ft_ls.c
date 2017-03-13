@@ -19,9 +19,11 @@ int		ft_print_dir(char *dirname)
 
 	i = 0;
 	dir = ft_create_tdir(dirname);
+	ft_quicksort_timestamp(dir->files, 0, (dir->dirlen - 2));
 	while (dir->files[i])
 	{
 		printf("%s\n", dir->files[i]->filename);
+		printf("%zu\n", dir->files[i]->timestamp);
 		i++;
 	}
 	free(dir);
