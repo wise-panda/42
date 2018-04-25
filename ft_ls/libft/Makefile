@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lbogar <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: lbogar <lbogar@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/31 14:48:13 by lbogar            #+#    #+#              #
-#    Updated: 2016/10/31 14:48:15 by lbogar           ###   ########.fr        #
+#    Updated: 2018/04/25 13:53:58 by lbo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,6 @@ LIBFT =		ft_memset.c \
 			ft_strtrim.c \
 			ft_strsplit.c \
 			ft_itoa.c \
-			ft_itoa_base.c \
 			ft_putchar.c \
 			ft_putstr.c \
 			ft_putendl.c \
