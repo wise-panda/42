@@ -42,7 +42,7 @@ char	*ft_find_dir(char **envp)
 	return (NULL);
 }
 
-int		ft_valid_flag(char c)
+int		ft_ls_valid_flag(char c)
 {
 	if (c == 'l' || c == 'R' || c == 'a' || c == 'r' || c == 't')
 		return (1);
@@ -50,7 +50,7 @@ int		ft_valid_flag(char c)
 		return (0);
 }
 
-void	ft_assign_flag(t_format *flag, char type)
+void	ft_ls_assign_flag(t_format *flag, char type)
 {
 	if (type == 'l')
 		flag->l = 1;
@@ -64,7 +64,7 @@ void	ft_assign_flag(t_format *flag, char type)
 		flag->t = 1;
 }
 
-int		ft_parse_flag(char **argv, t_format *flag)
+int		ft_ls_parse_flag(char **argv, t_format *flag)
 {
 	int		i;
 
@@ -72,10 +72,10 @@ int		ft_parse_flag(char **argv, t_format *flag)
 	if (argv[1][0] == '-')
 		while (argv[1][i])
 		{
-			if (ft_valid_flag(argv[1][i]))
+			if (ft_ls_valid_flag(argv[1][i]))
 			{
 				flag->found = 1;
-				ft_assign_flag(flag, argv[1][i]);
+				ft_ls_assign_flag(flag, argv[1][i]);
 			}
 			else
 				return (1);
@@ -96,7 +96,7 @@ int		ft_read_dir(char *name, t_format *flag)
 	{
 		if (pdirent->d_name[0] == '.')
 			continue ;
-		printf("%s\n", pdirent->d_name);
+		ft_printf("%s\n", pdirent->d_name);
 	}
 	closedir(pdir);
 	return (0);
@@ -136,9 +136,9 @@ int		ft_read_dir_r(char *dir_name, t_format *flag)
 	(void)flag;
 	if (!(pdir = opendir(dir_name)))
 		return (1);
-	printf("%s:\n", dir_name);
+	ft_printf("%s:\n", dir_name);
 	ft_read_dir(dir_name, flag);
-	printf("\n");
+	ft_printf("\n");
 	while ((pdirent = readdir(pdir)) != NULL)
 	{
 		if (pdirent->d_name[0] == '.')
@@ -154,7 +154,7 @@ int		ft_read_dir_r(char *dir_name, t_format *flag)
 	return (0);
 }
 
-void	ft_initialize_flag(t_format *flag)
+void	ft_ls_initialize_flag(t_format *flag)
 {
 	flag->found = 0;
 	flag->l = 0;
@@ -175,8 +175,8 @@ int		main(int argc, char **argv, char **envp)
 		ft_read_dir(ft_find_dir(envp), flag);
 	if (argc >= 2)
 	{
-		ft_initialize_flag(flag);
-		if (ft_parse_flag(argv, flag))
+		ft_ls_initialize_flag(flag);
+		if (ft_ls_parse_flag(argv, flag))
 			return (1);
 		if (flag->found == 1)
 			i++;

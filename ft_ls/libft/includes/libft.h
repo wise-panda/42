@@ -6,7 +6,7 @@
 /*   By: lbogar <lbogar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/16 10:04:00 by lbogar            #+#    #+#             */
-/*   Updated: 2018/04/25 13:55:01 by lbo              ###   ########.fr       */
+/*   Updated: 2018/04/25 21:14:09 by lbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int					ft_isalnum(int c);
 int					ft_isascii(int c);
 int					ft_isprint(int c);
 int					ft_isspace(int c);
+char				*ft_itoa_base(int number, char *base_chars, size_t base);
 int					ft_toupper(int c);
 int					ft_tolower(int c);
 void				*ft_memalloc(size_t size);
