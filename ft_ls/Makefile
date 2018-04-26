@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lbogar <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: lbogar <lbogar@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/31 14:48:13 by lbogar            #+#    #+#              #
-#    Updated: 2016/10/31 14:48:15 by lbogar           ###   ########.fr        #
+#    Updated: 2018/04/26 12:36:08 by lbogar           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME =		ft_ls
+NAME =			ft_ls
 
 LS =		ft_ls.c \
 				ft_create_dir.c \
@@ -20,33 +20,41 @@ LS =		ft_ls.c \
 				ft_quicksort_string.c \
 				ft_quicksort_timestamp.c
 
-OBJS += 	$(addprefix build/, $(LS:.c=.o))
+OBJS += 		$(addprefix build/, $(LS:.c=.o))
 
-CC = 		gcc
-CFLAGS = 	-Wall -Wextra -Werror -g
-CFLAGS += 	-I includes/
-LFLAGS = 	-L ./libft -lft
+CC = 				gcc
+CFLAGS = 		-Wall -Wextra -Werror -g
+HEADER = 		-I includes/
+LFLAGS = 		-L./libft -lft
 
 all: $(NAME)
 
 $(NAME): $(OBJS) | lib
-	@$(CC) $(CFLAGS) -o $(NAME) $(LFLAGS) $(OBJS)
+	@echo "Compiling executable..."
+	@$(CC) $(CFLAGS) -o $@ $^ $(LFLAGS)
+	@echo "Success!"
 
 build/%.o: srcs/%.c | build
-	@$(CC) $(CFLAGS) -o $@ -c $^
+	@echo "Compiling .o files..."
+	@$(CC) $(CFLAGS) $(HEADER) -o $@ -c $^
+	@echo "Success!"
 
 build:
 	@mkdir build/
 
 lib:
-	@make -C ./libft
-	@make clean -C ./libft
+	@echo "Compiling library..."
+	@make -C libft/
+	@echo "Success!"
 
 clean:
+	@echo "Removing build files..."
 	@rm -rf build/
 
 fclean: clean
-	@make fclean -C ./libft
+	@echo "Removing library files..."
+	@make fclean -C libft/
+	@echo "Removing executable..."
 	@rm -f $(NAME)
 
 re: fclean all

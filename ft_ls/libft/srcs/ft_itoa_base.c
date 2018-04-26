@@ -10,16 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-int		ft_intlen_base(uintmax_t number, size_t base)
+size_t	ft_intlen_base(size_t number, size_t base)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	if (number == 0)
 		return (1);
-	while (number)
+	while (number != 0)
 	{
 		number /= base;
 		++i;
@@ -27,12 +27,20 @@ int		ft_intlen_base(uintmax_t number, size_t base)
 	return (i);
 }
 
-char	*ft_itoa_base(uintmax_t number, char *base_chars, size_t base)
+char	*ft_itoa_base(int number, char *base_chars, size_t base)
 {
 	char	*string;
-	int		len;
+	size_t	len;
+	int		negative;
 
-	len = ft_intlen_base(number, base);
+	negative = 0;
+	len = ft_intlen_base(number, base) + negative;
+	if (number < 0)
+	{
+		len += 1;
+		negative = 1;
+		number *= -1;
+	}
 	if ((string = ft_strnew(len--)) == NULL)
 		return (NULL);
 	if (number == 0)
@@ -42,5 +50,7 @@ char	*ft_itoa_base(uintmax_t number, char *base_chars, size_t base)
 		string[len--] = base_chars[(number % base)];
 		number /= base;
 	}
+	if (negative)
+		string[0] = '-';
 	return (string);
 }

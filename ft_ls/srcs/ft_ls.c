@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbogar <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: lbogar <lbogar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 12:53:51 by lbogar            #+#    #+#             */
-/*   Updated: 2016/12/21 12:53:52 by lbogar           ###   ########.fr       */
+/*   Updated: 2018/04/26 12:36:27 by lbogar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int		main(int argc, char **argv, char **envp)
 		ft_print_dir(ft_find_pwd(envp));
 	if (argc >= 2)
 	{
-		ft_initialize_flag(flag);
-		if (ft_parse_flag(argv, flag))
+		ft_ls_initialize_flag(flag);
+		if (ft_ls_parse_flag(argv, flag))
 			return (1);
 		if (flag->found == 1)
 			i++;

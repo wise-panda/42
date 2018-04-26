@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbogar <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: lbogar <lbogar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/16 10:04:00 by lbogar            #+#    #+#             */
-/*   Updated: 2016/12/16 10:04:35 by lbogar           ###   ########.fr       */
+/*   Updated: 2018/04/25 21:14:09 by lbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int					ft_isalnum(int c);
 int					ft_isascii(int c);
 int					ft_isprint(int c);
 int					ft_isspace(int c);
+char				*ft_itoa_base(int number, char *base_chars, size_t base);
 int					ft_toupper(int c);
 int					ft_tolower(int c);
 void				*ft_memalloc(size_t size);
@@ -72,8 +73,6 @@ char				*ft_strtrim(char const *s);
 char				**ft_strsplit(char const *s, char c);
 void				ft_strset(char *string, char c, size_t start, size_t end);
 char				*ft_itoa(int n);
-char				*ft_itoa_base(uintmax_t number,
-								char *base_chars, size_t base);
 void				ft_putchar(char c);
 void				ft_putstr(char const *s);
 void				ft_putendl(char const *s);

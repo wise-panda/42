@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lbogar <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: lbogar <lbogar@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/31 14:48:13 by lbogar            #+#    #+#              #
-#    Updated: 2016/10/31 14:48:15 by lbogar           ###   ########.fr        #
+#    Updated: 2018/04/25 21:10:28 by lbo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ LIBFT =		ft_memset.c \
 			ft_isalnum.c \
 			ft_isascii.c \
 			ft_isprint.c \
+			ft_itoa_base.c \
 			ft_toupper.c \
 			ft_tolower.c \
 			ft_memalloc.c \
@@ -58,7 +59,6 @@ LIBFT =		ft_memset.c \
 			ft_strtrim.c \
 			ft_strsplit.c \
 			ft_itoa.c \
-			ft_itoa_base.c \
 			ft_putchar.c \
 			ft_putstr.c \
 			ft_putendl.c \
@@ -77,20 +77,31 @@ LIBFT =		ft_memset.c \
 			ft_min.c \
 			ft_strset.c
 
-OBJS = 		$(addprefix build/, $(LIBFT:.c=.o))
+PRINTF =	ft_printf.c \
+			ft_conversion_number.c \
+			ft_conversion_text.c \
+			ft_printf_manage_flag.c \
+			ft_printf_parse_flag.c \
 
-CC = 		gcc
-CFLAGS = 	-Wall -Wextra -Werror
-CFLAGS += 	-I includes/
-LFLAGS = 	-L . -lftprintf
+OBJS = 		$(addprefix build/, $(LIBFT:.c=.o))
+OBJS +=		$(addprefix build/, $(PRINTF:.c=.o))
+
+CC = 				gcc
+CFLAGS = 		-Wall -Wextra -Werror -g
+HEADER = 		-I includes/
+LFLAGS = 		-L . -lftprintf
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	@ar rc $(NAME) $(OBJS)
+	@ranlib $(NAME)
 
-build/%.o: ./%.c | build
-	@$(CC) $(CFLAGS) -o $@ -c $^
+build/%.o: srcs/%.c | build
+	@$(CC) $(CFLAGS) $(HEADER) -o $@ -c $<
+
+build/%.o: ft_printf/srcs/%.c | build
+	@$(CC) $(CFLAGS) $(HEADER) -o $@ -c $<
 
 build:
 	@mkdir build/
