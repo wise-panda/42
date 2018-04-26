@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ls.c                                            :+:      :+:    :+:   */
+/*   ft_ls_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbogar <lbogar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 12:53:51 by lbogar            #+#    #+#             */
-/*   Updated: 2018/04/26 12:36:27 by lbogar           ###   ########.fr       */
+/*   Updated: 2018/04/26 12:53:26 by lbogar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		ft_print_dir(char *dirname)
 	dir = ft_create_tdir(dirname);
 	while (dir->files[i])
 	{
-		printf("%s\n", dir->files[i]->filename);
+		ft_printf("%s\n", dir->files[i]->filename);
 		i++;
 	}
 	free(dir);

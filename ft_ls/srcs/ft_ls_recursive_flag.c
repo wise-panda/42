@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   recursion.c                                        :+:      :+:    :+:   */
+/*   ft_ls_recursive_flag.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbogar <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: lbogar <lbogar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 11:38:22 by lbogar            #+#    #+#             */
-/*   Updated: 2017/03/13 11:38:23 by lbogar           ###   ########.fr       */
+/*   Updated: 2018/04/26 12:54:22 by lbogar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int		ft_recurse(char *dir_name, t_format *flag)
 	(void)flag;
 	if (!(pdir = opendir(dir_name)))
 		return (1);
-	printf("%s:\n", dir_name);
+	ft_printf("%s:\n", dir_name);
 	ft_print_dir(dir_name);
-	printf("\n");
+	ft_printf("\n");
 	while ((pdirent = readdir(pdir)) != NULL)
 	{
 		if (pdirent->d_name[0] == '.')

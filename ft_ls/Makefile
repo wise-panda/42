@@ -6,23 +6,23 @@
 #    By: lbogar <lbogar@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/31 14:48:13 by lbogar            #+#    #+#              #
-#    Updated: 2018/04/26 12:36:08 by lbogar           ###   ########.fr        #
+#    Updated: 2018/04/26 12:58:50 by lbogar           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =			ft_ls
 
-LS =		ft_ls.c \
-				ft_create_dir.c \
-				ft_find_pwd.c \
-				ft_parse_flag.c \
-				ft_recursive_flag.c \
+LS =			ft_ls_main.c \
+				ft_ls_create_dir.c \
+				ft_ls_find_pwd.c \
+				ft_ls_parse_flag.c \
+				ft_ls_recursive_flag.c \
 				ft_quicksort_string.c \
 				ft_quicksort_timestamp.c
 
 OBJS += 		$(addprefix build/, $(LS:.c=.o))
 
-CC = 				gcc
+CC = 			gcc
 CFLAGS = 		-Wall -Wextra -Werror -g
 HEADER = 		-I includes/
 LFLAGS = 		-L./libft -lft
